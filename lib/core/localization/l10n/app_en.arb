@@ -1,0 +1,15 @@
+{
+  "signIn": "Sign In",
+  "welcomBack": "Welcome Back",
+  "emailAddress": "Email Address",
+  "password": "Password",
+  "enterPassword": "Enter Password",
+  "forgetPassword": "Forget Password?",
+  "newToAdaptiveComms": "New To Adaptive Comms?",
+  "createAnAccount": "Create an Account",
+  "or": "OR",
+  "name": "Full Name",
+  "confirmPassword": "Confirm Password",
+  "signUp": "Sign Up",
+  "alreadyHaveAnAccount": "Already have an account?"
+}

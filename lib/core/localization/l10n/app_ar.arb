@@ -1,0 +1,15 @@
+{
+  "signIn": "تسجيل الدخول",
+  "welcomBack": "مرحباً بعودتك",
+  "emailAddress": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "enterPassword": "أدخل كلمة المرور",
+  "forgetPassword": "نسيت كلمة المرور؟",
+  "newToAdaptiveComms": "جديد في Adaptive Comms?",
+  "createAnAccount": "إنشاء حساب",
+  "or": "او",
+  "name": "الاسم بالكامل",
+  "confirmPassword": "تأكيد كلمة المرور",
+  "signUp": "تسجيل حساب",
+  "alreadyHaveAnAccount": "لديك حساب بالفعل؟"
+}
