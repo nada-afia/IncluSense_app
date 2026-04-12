@@ -1,4 +1,4 @@
-import 'package:disability_interaction_app/core/utils/app_styles.dart';
+import 'package:incluesense/core/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -33,7 +33,6 @@ class CustomTextField extends StatelessWidget {
           }
         }
 
-
         if (isPassword) {
           if (value.length < 6) {
             return 'Password must be at least 6 characters';
@@ -45,10 +44,10 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: AppStyles.greyMed14,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        suffixIcon: isPassword ? const Icon(Icons.visibility_off_outlined) : null,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+        suffixIcon: isPassword
+            ? const Icon(Icons.visibility_off_outlined)
+            : null,
       ),
     );
   }

@@ -1,14 +1,14 @@
-import 'package:disability_interaction_app/core/localization/l10n/app_localizations.dart';
-import 'package:disability_interaction_app/core/utils/app_colors.dart';
-import 'package:disability_interaction_app/core/utils/app_routes.dart';
-import 'package:disability_interaction_app/core/utils/app_styles.dart';
-import 'package:disability_interaction_app/features/ui/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
+import 'package:incluesense/core/localization/l10n/app_localizations.dart';
+import 'package:incluesense/core/utils/app_colors.dart';
+import 'package:incluesense/core/utils/app_routes.dart';
+import 'package:incluesense/core/utils/app_styles.dart';
+import 'package:incluesense/features/ui/widgets/custom_elevated_button.dart';
 
 import '../../widgets/custom_text_field.dart';
 
 class RegisterScreen extends StatelessWidget {
-   RegisterScreen({super.key});
+  RegisterScreen({super.key});
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -41,7 +41,10 @@ class RegisterScreen extends StatelessWidget {
                   children: [
                     const Icon(Icons.person, color: Colors.blue),
                     const SizedBox(width: 5),
-                    Text(AppLocalizations.of(context)!.name, style: AppStyles.blackBold14),
+                    Text(
+                      AppLocalizations.of(context)!.name,
+                      style: AppStyles.blackBold14,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 12),
@@ -52,41 +55,60 @@ class RegisterScreen extends StatelessWidget {
                   children: [
                     const Icon(Icons.email, color: Colors.blue),
                     const SizedBox(width: 5),
-                    Text(AppLocalizations.of(context)!.emailAddress, style: AppStyles.blackBold14),
+                    Text(
+                      AppLocalizations.of(context)!.emailAddress,
+                      style: AppStyles.blackBold14,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 12),
-                const CustomTextField(hint: "yourname@email.com",isEmail: true,),
+                const CustomTextField(
+                  hint: "yourname@email.com",
+                  isEmail: true,
+                ),
                 const SizedBox(height: 12),
 
                 Row(
                   children: [
                     const Icon(Icons.lock, color: Colors.blue),
                     const SizedBox(width: 5),
-                    Text(AppLocalizations.of(context)!.password, style: AppStyles.blackBold14),
+                    Text(
+                      AppLocalizations.of(context)!.password,
+                      style: AppStyles.blackBold14,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 12),
-                CustomTextField(hint: AppLocalizations.of(context)!.enterPassword,isPassword: true,),
+                CustomTextField(
+                  hint: AppLocalizations.of(context)!.enterPassword,
+                  isPassword: true,
+                ),
                 const SizedBox(height: 12),
 
                 Row(
                   children: [
                     const Icon(Icons.lock_outline, color: Colors.blue),
                     const SizedBox(width: 5),
-                    Text(AppLocalizations.of(context)!.confirmPassword, style: AppStyles.blackBold14),
+                    Text(
+                      AppLocalizations.of(context)!.confirmPassword,
+                      style: AppStyles.blackBold14,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 12),
-                CustomTextField(hint: AppLocalizations.of(context)!.confirmPassword),
+                CustomTextField(
+                  hint: AppLocalizations.of(context)!.confirmPassword,
+                ),
 
                 const SizedBox(height: 24),
 
                 CustomElevatedButton(
-                    text: AppLocalizations.of(context)!.signUp,
-                    onPressed: () {
-                      if(_formKey.currentState!.validate()){
-                      Navigator.pushNamed(context, AppRoutes.home);}}
+                  text: AppLocalizations.of(context)!.signUp,
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.pushNamed(context, AppRoutes.home);
+                    }
+                  },
                 ),
 
                 const SizedBox(height: 20),
@@ -96,7 +118,10 @@ class RegisterScreen extends StatelessWidget {
                     children: [
                       Text(
                         AppLocalizations.of(context)!.alreadyHaveAnAccount,
-                        style: const TextStyle(color: Colors.grey, fontSize: 14),
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 14,
+                        ),
                       ),
                       TextButton(
                         onPressed: () {

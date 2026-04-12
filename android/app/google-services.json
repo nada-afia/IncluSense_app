@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "749118014970",
+    "project_id": "inclusens-app",
+    "storage_bucket": "inclusens-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:749118014970:android:4602635d958903bec95043",
+        "android_client_info": {
+          "package_name": "com.example.incluesense"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVNUn2LMa22R24PGi3p5lJGo8dY16EN0E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
