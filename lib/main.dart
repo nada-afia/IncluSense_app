@@ -11,6 +11,7 @@ import 'core/localization/l10n/app_localizations.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  print(Firebase.apps.length);
   runApp(const MyApp());
 }
 

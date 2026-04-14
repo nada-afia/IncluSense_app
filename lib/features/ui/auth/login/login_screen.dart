@@ -1,15 +1,26 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:incluesense/core/localization/l10n/app_localizations.dart';
 import 'package:incluesense/core/utils/app_colors.dart';
 import 'package:incluesense/core/utils/app_routes.dart';
 import 'package:incluesense/core/utils/app_styles.dart';
+import 'package:incluesense/features/ui/widgets/custom_alert_dialog.dart';
 import 'package:incluesense/features/ui/widgets/custom_elevated_button.dart';
 
 import '../../widgets/custom_text_field.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +56,11 @@ class LoginScreen extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 12),
-                CustomTextField(isEmail: true, hint: "yourname@email.com"),
+                CustomTextField(
+                  isEmail: true,
+                  hint: "yourname@email.com",
+                  controller: emailController,
+                ),
                 SizedBox(height: 12),
                 Row(
                   children: [
@@ -60,6 +75,7 @@ class LoginScreen extends StatelessWidget {
                 CustomTextField(
                   isPassword: true,
                   hint: AppLocalizations.of(context)!.enterPassword,
+                  controller: passwordController,
                 ),
                 SizedBox(height: 12),
                 Row(
@@ -76,11 +92,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 CustomElevatedButton(
                   text: AppLocalizations.of(context)!.signIn,
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.pushNamed(context, AppRoutes.home);
-                    }
-                  },
+                  onPressed: login,
                 ),
                 SizedBox(height: 12),
                 Row(
@@ -119,5 +131,36 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> login() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        final credential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+              email: emailController.text,
+              password: passwordController.text,
+            );
+        Navigator.pushNamed(context, AppRoutes.home);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'invalid-credential') {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return CustomAlertDialog(content: 'Invalid email or password.');
+            },
+          );
+        }
+      } catch (e) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return CustomAlertDialog(
+              content: 'An error occurred. Please try again.',
+            );
+          },
+        );
+      }
+    }
   }
 }

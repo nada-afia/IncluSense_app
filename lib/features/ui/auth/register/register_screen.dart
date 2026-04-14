@@ -1,15 +1,28 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:incluesense/core/localization/l10n/app_localizations.dart';
 import 'package:incluesense/core/utils/app_colors.dart';
 import 'package:incluesense/core/utils/app_routes.dart';
 import 'package:incluesense/core/utils/app_styles.dart';
+import 'package:incluesense/features/ui/widgets/custom_alert_dialog.dart';
 import 'package:incluesense/features/ui/widgets/custom_elevated_button.dart';
 
 import '../../widgets/custom_text_field.dart';
 
-class RegisterScreen extends StatelessWidget {
-  RegisterScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,21 +52,21 @@ class RegisterScreen extends StatelessWidget {
 
                 Row(
                   children: [
-                    const Icon(Icons.person, color: Colors.blue),
-                    const SizedBox(width: 5),
+                    Icon(Icons.person, color: Colors.blue),
+                    SizedBox(width: 5),
                     Text(
                       AppLocalizations.of(context)!.name,
                       style: AppStyles.blackBold14,
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
-                const CustomTextField(hint: "John Doe"),
+                SizedBox(height: 12),
+                CustomTextField(hint: "John Doe"),
                 const SizedBox(height: 12),
 
                 Row(
                   children: [
-                    const Icon(Icons.email, color: Colors.blue),
+                    Icon(Icons.email, color: Colors.blue),
                     const SizedBox(width: 5),
                     Text(
                       AppLocalizations.of(context)!.emailAddress,
@@ -62,16 +75,17 @@ class RegisterScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                const CustomTextField(
+                CustomTextField(
                   hint: "yourname@email.com",
                   isEmail: true,
+                  controller: emailController,
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
 
                 Row(
                   children: [
-                    const Icon(Icons.lock, color: Colors.blue),
-                    const SizedBox(width: 5),
+                    Icon(Icons.lock, color: Colors.blue),
+                    SizedBox(width: 5),
                     Text(
                       AppLocalizations.of(context)!.password,
                       style: AppStyles.blackBold14,
@@ -82,12 +96,28 @@ class RegisterScreen extends StatelessWidget {
                 CustomTextField(
                   hint: AppLocalizations.of(context)!.enterPassword,
                   isPassword: true,
+                  controller: passwordController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'This field is required';
+                    }
+                    if (value.length < 6) {
+                      return 'Password must be at least 6 characters';
+                    }
+                    if (!value.contains(RegExp(r'[A-Z]'))) {
+                      return 'Must contain uppercase letter';
+                    }
+                    if (!value.contains(RegExp(r'[0-9]'))) {
+                      return 'Must contain a number';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 12),
 
                 Row(
                   children: [
-                    const Icon(Icons.lock_outline, color: Colors.blue),
+                    const Icon(Icons.lock, color: Colors.blue),
                     const SizedBox(width: 5),
                     Text(
                       AppLocalizations.of(context)!.confirmPassword,
@@ -98,17 +128,24 @@ class RegisterScreen extends StatelessWidget {
                 const SizedBox(height: 12),
                 CustomTextField(
                   hint: AppLocalizations.of(context)!.confirmPassword,
+                  isPassword: true,
+                  controller: confirmPasswordController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'This field is required';
+                    }
+                    if (value != passwordController.text) {
+                      return 'Passwords do not match';
+                    }
+                    return null;
+                  },
                 ),
 
                 const SizedBox(height: 24),
 
                 CustomElevatedButton(
                   text: AppLocalizations.of(context)!.signUp,
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.pushNamed(context, AppRoutes.home);
-                    }
-                  },
+                  onPressed: register,
                 ),
 
                 const SizedBox(height: 20),
@@ -141,5 +178,38 @@ class RegisterScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> register() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        final credential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+              email: emailController.text,
+              password: passwordController.text,
+            );
+        Navigator.pushNamed(context, AppRoutes.home);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'email-already-in-use') {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return CustomAlertDialog(
+                content: 'The account already exists for that email.',
+              );
+            },
+          );
+        }
+      } catch (e) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return CustomAlertDialog(
+              content: 'An error occurred. Please try again.',
+            );
+          },
+        );
+      }
+    }
   }
 }
